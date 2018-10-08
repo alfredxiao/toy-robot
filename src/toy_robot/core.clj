@@ -21,10 +21,14 @@
   [state _])
 
 (defmethod go :REPORT
-  [state _])
+  [state _]
+  (do
+    (println state)
+    state))
 
 (defmethod go :PLACE
-  [_ command])
+  [_ command]
+  (:args command))
 
 (defmethod go :default
   [state]
