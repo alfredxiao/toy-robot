@@ -31,7 +31,7 @@
   (:args command))
 
 (defmethod go :default
-  [state]
+  [state _]
   state)
 
 (defn play
