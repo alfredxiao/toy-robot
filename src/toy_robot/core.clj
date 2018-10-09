@@ -9,7 +9,7 @@
 
 (defmulti execute
           "Execute one step by interpreting provided command and its optional arguments and transition
-          state. This function does not prevent the robot from falling, that is done in `safe-execute`"
+          state. This function does not prevent the robot from falling, that is done in `go`"
           (fn [state command] (:command command)))
 
 (def left (zipmap faces (drop 3 (cycle faces))))   ; ==> {:EAST :NORTH, :SOUTH :EAST, :WEST :SOUTH, :NORTH :WEST}
@@ -41,35 +41,24 @@
     state))
 
 (defmethod execute :PLACE
-  [_ command]
-  (:args command))
+  [state command]
+  (assoc (:args command) :on-table? true))
 
 (defmethod execute :default
   [state _]
   state)
 
-(defn- valid? [{:keys [x y]}]
-  (and (<= 0 x 4)
+(defn- valid? [{:keys [x y on-table?]}]
+  (and on-table?
+       (<= 0 x 4)
        (<= 0 y 4)))
 
-(defn- safe-execute [state command]
-  (let [new-state (execute state command)]
-    (if (valid? new-state)
-      new-state
-      state)))
-
 (defn- go [state command]
-  (cond
-    (:on-table? state)
-    (safe-execute state command)
-
-    (= :PLACE (:command command))
-    (let [new-state (safe-execute state command)]
-      (if (= new-state state)
-        state
-        (assoc new-state :on-table? true)))
-
-    :else state))
+  (if (or (:on-table? state)
+          (= :PLACE (:command command)))
+    (let [new-state (execute state command)]
+      (if (valid? new-state) new-state state))
+    state))
 
 (defn play
   "Plays a sequence of commands on a board with specified state to start with, and returns final state."
