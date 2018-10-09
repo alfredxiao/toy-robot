@@ -9,7 +9,7 @@
 
 (defmulti go
           "Plays one go by interpreting provided command and its optional arguments and transition
-          state or keep it in cases like a fall-over or invalid command, maybe"
+          state. This function does not prevent the robot from falling, that is done in `safe-go`"
           (fn [state command] (:command command)))
 
 (def left (zipmap faces (drop 3 (cycle faces))))   ; ==> {:EAST :NORTH, :SOUTH :EAST, :WEST :SOUTH, :NORTH :WEST}
@@ -48,11 +48,21 @@
   [state _]
   state)
 
+(defn- valid? [{:keys [x y]}]
+  (and (<= 0 x 4)
+       (<= 0 y 4)))
+
+(defn- safe-go [state command]
+  (let [new-state (go state command)]
+    (if (valid? new-state)
+      new-state
+      state)))
+
 (defn play
   "Plays a sequence of commands on a board with specified state to start with, and returns final state."
   [cmd-seq state]
   (reduce
-    go
+    safe-go
     state
     cmd-seq))
 
