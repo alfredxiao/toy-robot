@@ -1,9 +1,5 @@
 (ns toy-robot.core)
 
-; Example state: {} {:x 0, :y 0, :face :EAST :on-table? true}
-; All commands:
-; {:command :LEFT} {:command :PLACE, :args {:x 0, :y 0, :face :EAST}}}
-; Valid commands : LEFT, RIGHT, MOVE, REPORT, PLACE
 
 (def faces [:EAST :SOUTH :WEST :NORTH])
 
@@ -53,7 +49,10 @@
        (<= 0 x 4)
        (<= 0 y 4)))
 
-(defn- go [state command]
+(defn- go
+  "Safely execute one step by interpreting a command when on table already
+  and make sure result state is valid or discarded otherwise"
+  [state command]
   (if (or (:on-table? state)
           (= :PLACE (:command command)))
     (let [new-state (execute state command)]
@@ -72,3 +71,7 @@
 (defn stdin->commands
   "Returns a sequence of commands by parsing command inputs from standard input."
   [])
+
+(comment
+  (let [example-states [{} {:x 0, :y 0, :face :EAST :on-table? true}]
+        example-commands [{:command :LEFT} {:command :PLACE, :args {:x 0, :y 0, :face :EAST}}]]))
