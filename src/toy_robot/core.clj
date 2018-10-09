@@ -9,7 +9,7 @@
 (defmulti go
           "Plays one go by interpreting provided command and its optional arguments and transition
           state or keep it in cases like a fall-over or invalid command, maybe"
-          :command)
+          (fn [state command] (:command command)))
 
 (defmethod go :LEFT
   [state _])
