@@ -5,6 +5,10 @@
 ; {:command :LEFT} {:command :PLACE, :args {:x 0, :y 0, :face :EAST}}}
 ; Valid commands : LEFT, RIGHT, MOVE, REPORT, PLACE
 
+(def faces [:EAST :SOUTH :WEST :NORTH])
+
+(def left (zipmap faces (drop 3 (cycle faces))))   ; ==> {:EAST :NORTH, :SOUTH :EAST, :WEST :SOUTH, :NORTH :WEST}
+(def right (zipmap faces (drop 1 (cycle faces))))  ; ==> {:EAST :SOUTH, :SOUTH :WEST, :WEST :NORTH, :NORTH :EAST}
 
 (defmulti go
           "Plays one go by interpreting provided command and its optional arguments and transition
@@ -12,10 +16,12 @@
           (fn [state command] (:command command)))
 
 (defmethod go :LEFT
-  [state _])
+  [state _]
+  (update state :face left))
 
 (defmethod go :RIGHT
-  [state _])
+  [state _]
+  (update state :face right))
 
 (defmethod go :MOVE
   [state _])
