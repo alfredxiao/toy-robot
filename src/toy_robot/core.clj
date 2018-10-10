@@ -75,7 +75,7 @@
   "Returns a sequence of commands from parsing a text file containing commands, one command per line."
   [filepath]
   (with-open [rdr (io/reader filepath)]
-    (parser/lines->commands (line-seq rdr))))
+    (parser/lines->commands (doall (line-seq rdr)))))
 
 (defn- stdin->line-seq
   "Reads from stdin, each price in one line, returns a sequence of lines. Empty line implies end of input"
