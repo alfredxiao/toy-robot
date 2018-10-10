@@ -1,6 +1,5 @@
 (ns toy-robot.core)
 
-
 (def faces [:EAST :SOUTH :WEST :NORTH])
 
 (defmulti execute
@@ -74,4 +73,5 @@
 
 (comment
   (let [example-states [{} {:x 0, :y 0, :face :EAST :on-table? true}]
-        example-commands [{:command :LEFT} {:command :PLACE, :args {:x 0, :y 0, :face :EAST}}]]))
+        example-commands [{:command :LEFT}
+                          {:command :PLACE, :args {:x 0, :y 0, :face :EAST}}]]))
