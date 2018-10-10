@@ -1,6 +1,10 @@
 (ns toy-robot.parser
   (:require [clojure.string :refer [trim split upper-case]]))
 
+(defn- is-digit? [s]
+  (and (not (empty? s))
+       (re-find #"\d" s)))
+
 (defn line->command
   "Parses a command line and returns a command map, or nil if invalid"
   [line]
@@ -13,10 +17,8 @@
             (let [[x y face & extras] (when args-str
                                (map trim (split args-str #",")))]
               (when (and (empty? extras)
-                         (not (empty? x))
-                         (re-find #"\d" x)
-                         (not (empty? y))
-                         (re-find #"\d" y)
+                         (is-digit? x)
+                         (is-digit? y)
                          (contains? #{"EAST" "SOUTH" "WEST" "NORTH"}
                                     face))
                 {:command :PLACE
