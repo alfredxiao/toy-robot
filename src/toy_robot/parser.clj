@@ -4,7 +4,9 @@
 ;; to-improve:
 ;;   validate number of arguments
 ;;   validate that x,y are integer values, face are either EAST, SOUTH, WEST, NORTH
-(defn line->command [line]
+(defn line->command
+  "Parses a command line and returns a command map, or nil if invalid"
+  [line]
   (let [trimmed (when line
                   (-> line trim upper-case))]
     (when-not (empty? trimmed)
@@ -18,7 +20,9 @@
                       :face (keyword face)}})
             {:command (keyword cmd)}))))))
 
-(defn lines->commands [lines]
+(defn lines->commands
+  "Parses a sequence of command lines and returns a commands sequence"
+  [lines]
   (->> lines
        (map line->command)
        (remove nil?)))

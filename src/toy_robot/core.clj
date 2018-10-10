@@ -38,14 +38,16 @@
     state))
 
 (defmethod execute :PLACE
-  [state command]
+  [_ command]
   (assoc (:args command) :on-table? true))
 
 (defmethod execute :default
   [state _]
   state)
 
-(defn- valid? [{:keys [x y on-table?]}]
+(defn- valid?
+  "Checks if a robot state is valid or not, valid state must be on the table, and within boundary"
+  [{:keys [x y on-table?]}]
   (and on-table?
        (<= 0 x 4)
        (<= 0 y 4)))
@@ -61,7 +63,7 @@
     state))
 
 (defn play
-  "Plays a sequence of commands on a board with specified state to start with, and returns final state."
+  "Plays a sequence of commands on a table with specified state to start with, and returns final state."
   [cmd-seq]
   (reduce go {:on-table? false} cmd-seq))
 
