@@ -11,10 +11,10 @@
 
 (deftest parse-commands-with-args
   (are [str-line command] (= command (line->command str-line))
-        "PLACE 1,2,EAST"   {:command :PLACE
-                            :args {:x 1
-                                   :y 2
-                                   :face :EAST}}))
+        "PLACE 1, 2, east"   {:command :PLACE
+                              :args {:x 1
+                                     :y 2
+                                     :face :EAST}}))
 (deftest ignore-unrecognised-commands
   (are [str-line command] (= command (line->command str-line))
         "UNKNOWN"      nil
