@@ -1,8 +1,17 @@
 # toy-robot
 
-A Clojure library designed to ... well, that part is up to you.
+A fun clojure demonstration program.
 
 ## Usage
+
+- This application supports both inputting from stdin or file. See usage below.
+
+- I have deliberately made command and face values case insensitive, meaning when inputting command, both lower case and 
+upper cases are accepted. e.g. `PLACE 1,2,EAST` and `place 1,2,east` are both valid.
+
+### To install leiningen
+
+[Follow this instruction](https://leiningen.org/#install)
 
 ### To Run tests
 
@@ -17,7 +26,8 @@ A Clojure library designed to ... well, that part is up to you.
     `lein run samples/commands-1.txt`
 
 ## Assumptions
-- PLACE command are valid in format, as `x,y,face`, where `x,y` are both integers, and `face` is one of `EAST`, `SOUTH`, `WEST`, or `NORTH`.
+- PLACE command are valid in format, as `x,y,face`, where `x,y` are both integers, and `face` is one of `EAST`, `SOUTH`,
+ `WEST`, or `NORTH`.
 
 ## License
 
