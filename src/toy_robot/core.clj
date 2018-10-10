@@ -78,7 +78,7 @@
     (parser/lines->commands (doall (line-seq rdr)))))
 
 (defn- stdin->line-seq
-  "Reads from stdin, each price in one line, returns a sequence of lines. Empty line implies end of input"
+  "Reads from stdin, one command per line, returns a sequence of lines. Empty line implies end of input"
   []
   (take-while (complement empty?) (repeatedly read-line)))
 
