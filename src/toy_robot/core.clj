@@ -1,4 +1,6 @@
-(ns toy-robot.core)
+(ns toy-robot.core
+  (:require [toy-robot.parser :as parser]
+            [clojure.java.io :as io]))
 
 (def faces [:EAST :SOUTH :WEST :NORTH])
 
@@ -63,15 +65,24 @@
   [cmd-seq]
   (reduce go {:on-table? false} cmd-seq))
 
+(comment
+  (let [example-states [{:on-table? false}
+                        {:x 0, :y 0, :face :EAST :on-table? true}]
+        example-commands [{:command :LEFT}
+                          {:command :PLACE, :args {:x 0, :y 0, :face :EAST}}]]))
+
 (defn file->commands
   "Returns a sequence of commands from parsing a text file containing commands, one command per line."
-  [filepath])
+  [filepath]
+  (with-open [rdr (io/reader filepath)]
+    (parser/lines->commands (line-seq rdr))))
+
+(defn- stdin->line-seq
+  "Reads from stdin, each price in one line, returns a sequence of lines. Empty line implies end of input"
+  []
+  (take-while (complement empty?) (repeatedly read-line)))
 
 (defn stdin->commands
   "Returns a sequence of commands by parsing command inputs from standard input."
-  [])
-
-(comment
-  (let [example-states [{} {:x 0, :y 0, :face :EAST :on-table? true}]
-        example-commands [{:command :LEFT}
-                          {:command :PLACE, :args {:x 0, :y 0, :face :EAST}}]]))
+  []
+  (parser/lines->commands (stdin->line-seq)))
