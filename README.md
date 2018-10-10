@@ -5,10 +5,16 @@ A Clojure library designed to ... well, that part is up to you.
 ## Usage
 
 ### To Run tests
-`lein test`
+
+    `lein test`
 
 ### To Run application
-todo
+- To accept stdin as command input, run
+
+    `lein run`
+- To play commands from a command file, run
+
+    `lein run samples/commands-1.txt`
 
 ## Assumptions
 - PLACE command are valid in format, as `x,y,face`, where `x,y` are both integers, and `face` is one of `EAST`, `SOUTH`, `WEST`, or `NORTH`.
