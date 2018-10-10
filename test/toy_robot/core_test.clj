@@ -46,3 +46,14 @@
                 {:command :LEFT}
                 {:command :MOVE}
                 {:command :PLACE :args {:x 3 :y 1 :face :EAST}}]))))
+
+;; to-improve:
+;;   property-base testing
+;;     - Once on the table, no matter how many MOVE or PLACE commands are played, robot will not fall
+;;     - Once on the table, the order of direction commands (LEFT and RIGHT) does not affect the face value in final state,
+;;       e.g. LEFT, LEFT and then RIGHT yields the same face as LEFT, then RIGHT, then LEFT
+;;     - if robot is in the middle position, i.e. (2,2), no matter which direction it is facing,
+;;       this command sequence will bring it back to the middle position but the opposite direction:
+;;       [MOVE, MOVE, LEFT, LEFT, MOVE, MOVE]
+;;     - Once on the table, the robot will be able to walk counter-clockwise, by commands:
+;;       [many MOVEs, LEFT, many MOVEs, LEFT, many MOVEs, ...]

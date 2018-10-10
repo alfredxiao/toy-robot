@@ -9,6 +9,7 @@
       (if (.exists file)
         (do
           (println "Playing file " filepath)
+          (println "----------------------------------")
           (core/play (core/file->commands filepath)))
         (println "File not found: " filepath)))
     (do
