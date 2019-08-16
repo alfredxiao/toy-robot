@@ -21,3 +21,8 @@
         "NO_SUCH 1,2"  nil
         ""             nil
         nil            nil))
+
+(deftest parse-lines->commands
+  (is (= [{:command :LEFT}
+          {:command :RIGHT}]
+         (lines->commands ["LEFT" "RIGHT"]))))
